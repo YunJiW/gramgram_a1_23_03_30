@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @SpringBootTest //스프링부트 관련 컴포넌트 테스트시 붙여한다.,IOC 컨테이너를 작동시킴
 @AutoConfigureMockMvc //Http 요청,응답 테스트
 @Transactional //실제 테스트에서 발생한 DB작업이 영구적으로 적용되지 않도록 test + 트랜잭션 -> 자동 롤백
@@ -36,10 +37,18 @@ public class MemberControllerTests {
 
         // THEN
         resultActions
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(handler().handlerType(MemberController.class))
                 .andExpect(handler().methodName("showJoin"))
-                .andExpect(content().string(containsString("회원가입")));
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(containsString("""
+                        <input type="text" name="username"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        <input type="password" name="password"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        <input type="submit" value="회원가입"
+                        """.stripIndent().trim())));
+
     }
 
     @Test
