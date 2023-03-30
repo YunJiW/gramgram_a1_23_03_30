@@ -1,5 +1,7 @@
 package com.ll.gramgram.boundedContext.member.controller;
 
+import com.ll.gramgram.boundedContext.member.controller.service.MemberService;
+import com.ll.gramgram.boundedContext.member.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ public class MemberControllerTests {
     @Autowired
     private MockMvc mvc;
 
+
+    @Autowired
+    private MemberService memberService;
+
     @Test
     @DisplayName("회원가입 폼")
     void t1() throws Exception {
@@ -53,7 +59,7 @@ public class MemberControllerTests {
 
     @Test
     @DisplayName("회원가입")
-    void t2() throws Exception {
+    void t002() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
                 .perform(post("/member/join")
@@ -70,6 +76,9 @@ public class MemberControllerTests {
                 .andExpect(handler().methodName("join"))
                 .andExpect(status().is3xxRedirection());
 
+        Member member = memberService.findByUsername("user10").orElse(null);
+
+        assertThat(member).isNotNull();
     }
 
     @Test
