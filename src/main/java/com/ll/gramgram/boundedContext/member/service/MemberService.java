@@ -1,4 +1,4 @@
-package com.ll.gramgram.boundedContext.member.controller.service;
+package com.ll.gramgram.boundedContext.member.service;
 
 import com.ll.gramgram.boundedContext.member.entity.Member;
 import com.ll.gramgram.boundedContext.member.repository.MemberRepository;
