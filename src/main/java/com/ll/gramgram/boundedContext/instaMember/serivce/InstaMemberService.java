@@ -21,6 +21,7 @@ public class InstaMemberService {
         return instaMemberRepository.findByUsername(username);
     }
 
+    @Transactional
     public RsData<InstaMember> connect(Member member,String username,String gender){
         if(findByUsername(username).isPresent()){
             return RsData.of("F-1","해당 인스타그램 아이디는 이미 다른 사용자와 연결되있습니다.");
@@ -33,7 +34,6 @@ public class InstaMemberService {
         return instaMemberRsData;
     }
 
-    @Transactional
     private RsData<InstaMember> create(String username,String gender){
         InstaMember instaMember = InstaMember
                 .builder()
