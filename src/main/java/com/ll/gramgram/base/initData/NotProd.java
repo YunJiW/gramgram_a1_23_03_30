@@ -20,6 +20,7 @@ public class NotProd {
             memberService.join("user2", "1234");
             memberService.join("user3", "1234");
             memberService.join("user4", "1234");
+
         };
     }
 }
