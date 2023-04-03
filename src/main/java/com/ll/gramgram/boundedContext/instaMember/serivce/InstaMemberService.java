@@ -16,12 +16,23 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class InstaMemberService {
 
+
     private final InstaMemberRepository instaMemberRepository;
 
     private final MemberService memberService;
 
     public Optional<InstaMember> findByUsername(String username){
         return instaMemberRepository.findByUsername(username);
+    }
+
+    @Transactional
+    public InstaMember findbyUsernameOrCreate(String username){
+        Optional<InstaMember> opInstaMember = findByUsername(username);
+
+        if(opInstaMember.isPresent())
+            return opInstaMember.get();
+
+        return create(username,"U").getData();
     }
 
     @Transactional

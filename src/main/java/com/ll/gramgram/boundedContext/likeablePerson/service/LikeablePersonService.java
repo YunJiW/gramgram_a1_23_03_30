@@ -22,10 +22,14 @@ public class LikeablePersonService {
     private final InstaMemberService instaMemberService;
 
     //username이 상대방 이름
+    @Transactional
     public RsData<LikeablePerson> create(Member member, String username, int attractiveTypeCode) {
         //인스타에 저장된 사람 넣기
-        InstaMember byUsername = instaMemberService.findByUsername(username).orElseThrow();
+        InstaMember byUsername = instaMemberService.findbyUsernameOrCreate(username);
 
+        if(member.getInstaMember().getUsername().equals(username)){
+            return RsData.of("F-1","본인을 호감상대로 등록 불가능");
+        }
 
         LikeablePerson likeablePerson = LikeablePerson
                 .builder()
