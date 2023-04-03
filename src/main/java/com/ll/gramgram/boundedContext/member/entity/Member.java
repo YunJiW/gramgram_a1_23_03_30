@@ -1,9 +1,7 @@
 package com.ll.gramgram.boundedContext.member.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -38,6 +36,10 @@ public class Member {
 
     private String username;
     private String password;
+
+    @OneToOne
+    @Setter
+    private InstaMember instaMember;
 
     public List<? extends GrantedAuthority> getGrantedAuthorities(){
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
