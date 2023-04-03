@@ -34,6 +34,7 @@ public class Member {
     @LastModifiedDate
     private LocalDateTime modifyDate;
 
+    @Column(unique = true)
     private String username;
     private String password;
 
