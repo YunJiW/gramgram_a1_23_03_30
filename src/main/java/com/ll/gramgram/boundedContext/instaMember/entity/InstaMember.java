@@ -30,5 +30,6 @@ public class InstaMember {
     @Column(unique = true)
     private String username;
 
+    @Setter
     private String gender;
 }

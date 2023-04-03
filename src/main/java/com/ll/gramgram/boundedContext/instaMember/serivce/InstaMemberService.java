@@ -26,22 +26,38 @@ public class InstaMemberService {
     }
 
     @Transactional
-    public InstaMember findbyUsernameOrCreate(String username){
+    public RsData<InstaMember> findByUsernameOrCreate(String username){
         Optional<InstaMember> opInstaMember = findByUsername(username);
 
         if(opInstaMember.isPresent())
-            return opInstaMember.get();
+            return RsData.of("S-2","인스타계정이 등록되었습니다",opInstaMember.get());
 
-        return create(username,"U").getData();
+        return create(username,"U");
+    }
+
+    @Transactional
+    public RsData<InstaMember> findByUsernameOrCreate(String username,String gender){
+        Optional<InstaMember> opInstaMember = findByUsername(username);
+
+        if(opInstaMember.isPresent()){
+            InstaMember instaMember = opInstaMember.get();
+            instaMember.setGender(gender);
+
+            instaMemberRepository.save(instaMember);
+
+            return RsData.of("S-2","인스타계정이 등록되었습니다",instaMember);
+        }
+        return create(username,gender);
     }
 
     @Transactional
     public RsData<InstaMember> connect(Member member,String username,String gender){
-        if(findByUsername(username).isPresent()){
+        Optional<InstaMember> opInstaMember = findByUsername(username);
+        if(opInstaMember.isPresent() && !opInstaMember.get().getGender().equals("U")){
             return RsData.of("F-1","해당 인스타그램 아이디는 이미 다른 사용자와 연결되있습니다.");
         }
 
-        RsData<InstaMember> instaMemberRsData = create(username,gender);
+        RsData<InstaMember> instaMemberRsData = findByUsernameOrCreate(username,gender);
 
         memberService.updateInstaMember(member,instaMemberRsData.getData());
 

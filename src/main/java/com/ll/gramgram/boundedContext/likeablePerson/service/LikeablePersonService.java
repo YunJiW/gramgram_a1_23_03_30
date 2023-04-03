@@ -23,9 +23,9 @@ public class LikeablePersonService {
 
     //username이 상대방 이름
     @Transactional
-    public RsData<LikeablePerson> create(Member member, String username, int attractiveTypeCode) {
+    public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
         //인스타에 저장된 사람 넣기
-        InstaMember byUsername = instaMemberService.findbyUsernameOrCreate(username);
+        InstaMember byUsername = instaMemberService.findByUsernameOrCreate(username).getData();
 
         if(member.getInstaMember().getUsername().equals(username)){
             return RsData.of("F-1","본인을 호감상대로 등록 불가능");
